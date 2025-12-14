@@ -1,5 +1,5 @@
 import Form from "./components/Form"
-
+import Ticket from "./components/Ticket"
 
 
 function App() {
@@ -7,6 +7,7 @@ function App() {
 
   return (
     <div className="
+    overflow-hidden
     w-screen h-screen flex justify-center items-center
     lg:bg-[url('/background-desktop.png')] 
     md:bg-[url('/background-tablet.png')]
