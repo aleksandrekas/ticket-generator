@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useRef } from "react";
 
 type InputsType={
     image:string
@@ -14,6 +14,8 @@ export default function Form(){
         gitName:'',
         mail:''
     })
+
+    const inputRef = useRef<any>(null)
 
     function handleDrag(e:React.DragEvent){
         e.preventDefault()
@@ -60,12 +62,17 @@ export default function Form(){
     }
 
     function removeImage(){
+        
         setInputs((prev)=>({
             ...prev,
             image:''
         }))
     }
 
+
+    function changeImage(){
+        inputRef.current.click()
+    }
 
 
 
@@ -79,14 +86,14 @@ export default function Form(){
             <form className="max-w-[350px] w-full  flex flex-col justify-start items-start">
                 <div className="w-full aspect-5/3  flex flex-col justify-center items-start ">
                     <p className="text-[#a6a4b9]">Upload Avatar</p>
-                    <input  id="uploadInput" onChange={onchangeImage} type="file" accept="image/*" hidden  />
+                    <input ref={inputRef} id="uploadInput" onChange={onchangeImage} type="file" accept="image/*" hidden  />
                     {
                         inputs.image !== ''?
                             <div className="w-full h-full my-1.5 flex flex-col justify-evenly items-center  bg-[rgba(0,0,0,0.2)] rounded-[20px] border-2 border-dashed border-[#a6a4b9]">
                                 <img className="w-20 rounded-[5px]" src={inputs.image} alt="image" />
                                 <div>
                                     <button onClick={removeImage} className="text-[#a6a4b9] text-[0.6rem] bg-[rgba(197,188,188,0.2)] cursor-pointer rounded-[5px] my-2 mx-2 p-1.5">Remove Image</button>
-                                    <button className="text-[#a6a4b9] text-[0.6rem] bg-[rgba(197,188,188,0.2)] cursor-pointer rounded-[5px] my-2 mx-2 p-1.5">Change Image</button>
+                                    <button onClick={changeImage} className="text-[#a6a4b9] text-[0.6rem] bg-[rgba(197,188,188,0.2)] cursor-pointer rounded-[5px] my-2 mx-2 p-1.5">Change Image</button>
                                 </div>
                             </div>
                             :
