@@ -1,4 +1,4 @@
-import { useState,useRef } from "react";
+import React, { useState,useRef } from "react";
 
 type InputsType={
     image:string
@@ -7,12 +7,26 @@ type InputsType={
     mail:string
 }
 
+type ErrorType={
+    image:boolean
+    fullName:boolean
+    gitName:boolean
+    mail:boolean    
+}
+
 export default function Form(){
     const [inputs,setInputs] = useState<InputsType>({
         image:'',
         fullName:'',
         gitName:'',
         mail:''
+    })
+
+    const [errors,setErrors] = useState<ErrorType>({
+        image:false,
+        fullName:false,
+        gitName:false,
+        mail:false
     })
 
     const inputRef = useRef<any>(null)
@@ -42,10 +56,12 @@ export default function Form(){
     }
 
     function handleInputChanges(e:React.ChangeEvent<HTMLInputElement>){
+        const target = e.currentTarget
         setInputs((prev)=>({
             ...prev,
-            [e.currentTarget.name]:[e.currentTarget.value]
+            [target.name]:target.value
         }))
+
     }
 
 
@@ -61,8 +77,8 @@ export default function Form(){
         }
     }
 
-    function removeImage(){
-        
+    function removeImage(e:React.FormEvent){
+        e.preventDefault()
         setInputs((prev)=>({
             ...prev,
             image:''
@@ -70,9 +86,32 @@ export default function Form(){
     }
 
 
-    function changeImage(){
+    function changeImage(e:React.FormEvent){
+        e.preventDefault()
         inputRef.current.click()
     }
+
+
+    function generateTicket(){
+        let noEmptyCount = 0;
+        for(const key  in errors){
+            const typed = key as keyof ErrorType
+            if(inputs[typed]=== ''){
+                setErrors((prev)=>({
+                    ...prev,
+                    [typed]:'error'
+                }))
+            }else{
+                noEmptyCount ++
+            }
+        }
+
+        if(noEmptyCount < 4){
+            return
+        }
+
+    }
+
 
 
 
@@ -83,7 +122,7 @@ export default function Form(){
             <img className="w-[30%]" src="/logo-full.svg" alt="coding_conf_logo" />
             <h1 className="text-zinc-50  text-[clamp(1.5rem,4cqi,2rem)] mx-1 my-1  font-bold text-center font-inconsolata">Your Journey to Coding Conf 2025 Starts Here!</h1>
             <p className="text-[#a6a4b9] text-[clamp(0.1rem,4.5cqi,1.4rem)] py-1.5 text-center my-4">Secure your spot at next year's biggest coding conference.</p>
-            <form className="max-w-[350px] w-full  flex flex-col justify-start items-start">
+            <form className="max-w-[350px] w-full  flex flex-col justify-start items-start" onSubmit={(e)=>{ e.preventDefault()}}>
                 <div className="w-full aspect-5/3  flex flex-col justify-center items-start ">
                     <p className="text-[#a6a4b9]">Upload Avatar</p>
                     <input ref={inputRef} id="uploadInput" onChange={onchangeImage} type="file" accept="image/*" hidden  />
@@ -106,21 +145,21 @@ export default function Form(){
                     }
                     <div className="flex justify-start  items-center container-type-inline-size">
                             <img src="/icon-info.svg" alt="info" />
-                            <p className="text-[#a6a4b9] text-[12px] mx-1">
+                            <p className={`${!errors.image ? 'text-[#a6a4b9]':'text-[#a14646]'} text-[12px] mx-1`}>
                                 Upload your photo (JPG or PNG,max size: 500KB).
                             </p>
                     </div>
                 </div>
                 <label className={labelStyles} htmlFor="fullname">Full Name</label>
-                <input className={inputStyles} onChange={handleInputChanges}  type="text" id="fullName"  name="fullName" value={inputs.fullName}  placeholder="your name" />
-                <p className="text-[#a14646] ">* please enter your name</p>
+                <input className={inputStyles} onChange={(e)=>{handleInputChanges(e)}}  type="text" id="fullName"  name="fullName" value={inputs.fullName}  placeholder="your name" />
+                <p className={`text-[#a14646] ${errors.fullName ? '':'invisible'}`}>* please enter your name</p>
                 <label className={labelStyles}  htmlFor="mail">Email Address</label>
-                <input className={inputStyles} onChange={handleInputChanges}  type="text" id="mail"  name="mail" value={inputs.mail} placeholder="example@mail.com"/>
-                <p className="text-[#a14646] ">* please enter valid email adress</p>
+                <input className={inputStyles} onChange={(e)=>{handleInputChanges(e)}}  type="text" id="mail"  name="mail" value={inputs.mail} placeholder="example@mail.com"/>
+                <p className={`text-[#a14646] ${errors.mail ? '':'invisible'}`}>* please enter valid email adress</p>
                 <label className={labelStyles} htmlFor="gitHub">GitHub Username</label>
-                <input className={inputStyles} onChange={handleInputChanges}  type="text"  id="gitHub"  name="gitName" value={inputs.gitName} placeholder="@yourusername" />
-                <p className="text-[#a14646] ">* please enter your github username</p>
-                <button type="submit" className="h-12.5 w-full  cursor-pointer transition-[0.2s] ease-in-out bg-[#f67464] hover:bg-[#f1a096]  text-[#3f1a2f] font-bold rounded-[10px] my-5">Generate My Ticket</button>
+                <input className={inputStyles} onChange={(e)=>{handleInputChanges(e)}}  type="text"  id="gitHub"  name="gitName" value={inputs.gitName} placeholder="@yourusername" />
+                <p className={`text-[#a14646] ${errors.gitName ? '':'invisible'}`}>* please enter your github username</p>
+                <button onClick={generateTicket} type="submit" className="h-12.5 w-full  cursor-pointer transition-[0.2s] ease-in-out bg-[#f67464] hover:bg-[#f1a096]  text-[#3f1a2f] font-bold rounded-[10px] my-5">Generate My Ticket</button>
             </form>
         </div>
     )
