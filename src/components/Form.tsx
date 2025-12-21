@@ -1,4 +1,5 @@
-import React, { useState,useRef } from "react";
+import React, { useState,useRef,useContext } from "react";
+import { TicketContext } from "./Context";
 
 type InputsType={
     image:string
@@ -28,6 +29,7 @@ export default function Form(){
         gitName:false,
         mail:false
     })
+    const {setState} = useContext(TicketContext)
 
     const inputRef = useRef<any>(null)
 
@@ -108,6 +110,8 @@ export default function Form(){
 
         if(noEmptyCount < 4){
             return
+        }else{
+            setState(inputs)
         }
 
     }
@@ -117,12 +121,15 @@ export default function Form(){
 
     const labelStyles='text-[#ffff] my-2';
     const inputStyles='h-[50px] w-full bg-[rgba(0,0,0,0.2)] rounded-[10px] outline-none border-1 border-[#a6a4b9] border-solid text-[#a6a4b9] px-4 py-0.5';
+    
+
+
     return (
-        <div className="h-full max-w-[900px] w-full m-3.5 p-6 container-type-inline-size flex flex-col justify-start items-center z-50">
+        <div className="h-full max-w-225 w-full m-3.5 p-6 container-type-inline-size flex flex-col justify-start items-center z-50">
             <img className="w-[30%]" src="/logo-full.svg" alt="coding_conf_logo" />
             <h1 className="text-zinc-50  text-[clamp(1.5rem,4cqi,2rem)] mx-1 my-1  font-bold text-center font-inconsolata">Your Journey to Coding Conf 2025 Starts Here!</h1>
             <p className="text-[#a6a4b9] text-[clamp(0.1rem,4.5cqi,1.4rem)] py-1.5 text-center my-4">Secure your spot at next year's biggest coding conference.</p>
-            <form className="max-w-[350px] w-full  flex flex-col justify-start items-start" onSubmit={(e)=>{ e.preventDefault()}}>
+            <form className="max-w-87.5 w-full  flex flex-col justify-start items-start" onSubmit={(e)=>{ e.preventDefault()}}>
                 <div className="w-full aspect-5/3  flex flex-col justify-center items-start ">
                     <p className="text-[#a6a4b9]">Upload Avatar</p>
                     <input ref={inputRef} id="uploadInput" onChange={onchangeImage} type="file" accept="image/*" hidden  />

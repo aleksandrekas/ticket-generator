@@ -1,12 +1,15 @@
 import Ticket from "./components/Ticket"
 import Form from "./components/Form"
+import { useContext } from "react"
+import { TicketContext } from "./components/Context"
 
 function App() {
+  const {state} = useContext(TicketContext)
 
-
+  console.log(state.fullName)
   return (
     <div className="
-    w-screen h-screen flex justify-center items-center
+    w-screen h-screen flex justify-center items-start
     lg:bg-[url('/background-desktop.png')] 
     md:bg-[url('/background-tablet.png')]
     bg-[url('/background-mobile.png')]
@@ -14,9 +17,14 @@ function App() {
     relative
     "
     >
+      {state.fullName === ''?
         <Form />
-        {/* <Form /> */}
-      {/* <img className="absolute top-0 left-0 w-[1900px]  z-0" src="/pattern-lines.svg" alt="lines" />     */}
+        :
+        <Ticket/>
+    }
+      
+        
+      <img className="absolute top-0 left-0 w-475  z-0" src="/pattern-lines.svg" alt="lines" />    
       <img className="absolute top-2/4 right-2/6  z-10" src="/pattern-circle.svg" alt="lines" />    
       <picture className="absolute bottom-0 left-0 z-20">
         <source media="(min-width:1024px)" srcSet="/pattern-squiggly-line-bottom-desktop.svg" />
