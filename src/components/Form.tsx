@@ -125,7 +125,7 @@ export default function Form(){
 
 
     return (
-        <div className="h-full max-w-225 w-full m-3.5 p-6 container-type-inline-size flex flex-col justify-start items-center z-50">
+        <div className="h-full max-w-225 w-full  p-6 container-type-inline-size flex flex-col justify-start items-center z-50">
             <img className="w-[30%]" src="/logo-full.svg" alt="coding_conf_logo" />
             <h1 className="text-zinc-50  text-[clamp(1.5rem,4cqi,2rem)] mx-1 my-1  font-bold text-center font-inconsolata">Your Journey to Coding Conf 2025 Starts Here!</h1>
             <p className="text-[#a6a4b9] text-[clamp(0.1rem,4.5cqi,1.4rem)] py-1.5 text-center my-4">Secure your spot at next year's biggest coding conference.</p>

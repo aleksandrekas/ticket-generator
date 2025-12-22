@@ -23,9 +23,8 @@ function App() {
         <Ticket/>
     }
       
-        
-      <img className="absolute top-0 left-0 w-475  z-0" src="/pattern-lines.svg" alt="lines" />    
-      <img className="absolute top-2/4 right-2/6  z-10" src="/pattern-circle.svg" alt="lines" />    
+           
+      <img className="absolute top-2/4 right-2/6   z-10" src="/pattern-circle.svg" alt="lines" />    
       <picture className="absolute bottom-0 left-0 z-20">
         <source media="(min-width:1024px)" srcSet="/pattern-squiggly-line-bottom-desktop.svg" />
         <img src="/pattern-squiggly-line-bottom-mobile-tablet.svg" alt="squiggly-lines" />
